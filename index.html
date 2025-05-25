@@ -494,6 +494,38 @@
   fetchMarquee();
   setInterval(fetchMarquee, 2000);
 </script>
+  // 自訂事件追蹤
+  // 點擊「電子書」
+  document.querySelector('a[href*="drive.google.com"]').addEventListener('click', () => {
+    gtag('event', 'click_ebook', {
+      event_category: 'link',
+      event_label: '電子書'
+    });
+  });
+
+  // 點擊「藝文類」
+  document.querySelector('a[href*="Yi-"]').addEventListener('click', () => {
+    gtag('event', 'click_art', {
+      event_category: 'link',
+      event_label: '藝文類'
+    });
+  });
+
+  // 點擊「網頁更新日記」
+  document.querySelector('a[href*="update-note"]').addEventListener('click', () => {
+    gtag('event', 'click_update_log', {
+      event_category: 'link',
+      event_label: '網頁更新日記'
+    });
+  });
+
+  // 點擊「歷史遍很大」
+  document.querySelector('a[href*="findmy"]').addEventListener('click', () => {
+    gtag('event', 'click_history_tracker', {
+      event_category: 'link',
+      event_label: '歷史遍很大'
+    });
+  });
 </html>
   // 藝文類四格顯示
   function showArtScreen() {
