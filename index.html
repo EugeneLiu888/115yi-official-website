@@ -381,6 +381,7 @@
   </div>
   <div class="screen">
     <div class="tech-text">ASHS_115YI OPERATING SYSTEM</div>
+    <div id="countdown" class="tech-text no-flicker"></div>
     <div class="grid">
       <div class="camera-feed">
         <div class="tech-text" style="color: #6bc0f7; text-shadow: 0 0 6px #6bc0f7; padding-left: 12px;">電子書</div>
@@ -436,6 +437,32 @@
     </div>
   </div>
   <audio id="unlockAudio" src="Apple Intelligence Sound.mp3" preload="auto"></audio>
+  <script>
+    window.addEventListener('load', () => {
+      // 取得今天日期
+      const today = new Date();
+
+      // 設定會考日期（固定每年 5 月 16 日）
+      let examDate = new Date(today.getFullYear(), 4, 16); // 月份從 0 開始，4 = 五月
+
+      // 如果今天已經過了今年的會考，就取明年的
+      if (today > examDate) {
+        examDate = new Date(today.getFullYear() + 1, 4, 16);
+      }
+
+      // 計算剩餘天數
+      const diffTime = examDate - today;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      // 跳出小視窗顯示倒數
+      alert("距離會考還有 " + diffDays + " 天！");
+      // 同時顯示在畫面上
+      const countdownEl = document.getElementById("countdown");
+      if (countdownEl) {
+        countdownEl.textContent = "距離會考還有 " + diffDays + " 天";
+      }
+    });
+  </script>
 </body>
 <script>
   // 顯示 Hello 1.5 秒後切換至 ASHS 115 義官網
@@ -493,42 +520,56 @@
   }
   fetchMarquee();
   setInterval(fetchMarquee, 2000);
-</script>
+
   // 自訂事件追蹤
   // 點擊「電子書」
-  document.querySelector('a[href*="drive.google.com"]').addEventListener('click', () => {
-    gtag('event', 'click_ebook', {
-      event_category: 'link',
-      event_label: '電子書'
+  const ebookLink = document.querySelector('a[href*="drive.google.com"]');
+  if (ebookLink) {
+    ebookLink.addEventListener('click', () => {
+      gtag('event', 'click_ebook', {
+        event_category: 'link',
+        event_label: '電子書'
+      });
     });
-  });
+  }
 
   // 點擊「藝文類」
-  document.querySelector('a[href*="Yi-"]').addEventListener('click', () => {
-    gtag('event', 'click_art', {
-      event_category: 'link',
-      event_label: '藝文類'
+  const artLink = document.querySelector('a[href*="Yi-"]');
+  if (artLink) {
+    artLink.addEventListener('click', () => {
+      gtag('event', 'click_art', {
+        event_category: 'link',
+        event_label: '藝文類'
+      });
     });
-  });
+  }
 
   // 點擊「網頁更新日記」
-  document.querySelector('a[href*="update-note"]').addEventListener('click', () => {
-    gtag('event', 'click_update_log', {
-      event_category: 'link',
-      event_label: '網頁更新日記'
+  const updateLogLink = document.querySelector('a[href*="update-note"]');
+  if (updateLogLink) {
+    updateLogLink.addEventListener('click', () => {
+      gtag('event', 'click_update_log', {
+        event_category: 'link',
+        event_label: '網頁更新日記'
+      });
     });
-  });
+  }
 
   // 點擊「歷史遍很大」
-  document.querySelector('a[href*="findmy"]').addEventListener('click', () => {
-    gtag('event', 'click_history_tracker', {
-      event_category: 'link',
-      event_label: '歷史遍很大'
+  const historyTrackerLink = document.querySelector('a[href*="findmy"]');
+  if (historyTrackerLink) {
+    historyTrackerLink.addEventListener('click', () => {
+      gtag('event', 'click_history_tracker', {
+        event_category: 'link',
+        event_label: '歷史遍很大'
+      });
     });
-  });
-</html>
+  }
+
   // 藝文類四格顯示
   function showArtScreen() {
     document.querySelectorAll(".screen").forEach(el => el.style.display = "none");
     document.querySelector(".art-screen").style.display = "block";
   }
+</script>
+</html>
