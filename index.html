@@ -361,7 +361,7 @@
   .calendar-card iframe {
     width: 100%;
     height: 100%;
-    min-height: 240px;
+    min-height: 280px;
     border: 0;
     border-radius: 8px;
     background: #02141d;
@@ -382,7 +382,7 @@
     }
 
     .camera-feed {
-      min-height: 220px;
+      min-height: 200px;
     }
 
     .camera-feed > a,
@@ -393,7 +393,18 @@
     }
 
     .calendar-card {
-      min-height: 360px;
+      min-height: 460px;
+      padding: 8px;
+    }
+
+    .calendar-card iframe {
+      min-height: 400px;
+    }
+
+    .tech-text {
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      line-height: 1.4;
     }
   }
 
@@ -441,16 +452,16 @@
         </a>
         <div class="scan-line"></div>
       </div>
+      <div class="camera-feed calendar-card">
+        <div class="tech-text" style="color: #6bc0f7; text-shadow: 0 0 6px #6bc0f7;">行事曆</div>
+        <iframe src="https://ashs115yitestschedule.notion.site/ebd//2d849e9eec318058a909fe4720e6d218?v=2d849e9eec3181c7b682000c651a19fd" title="考試行程" allowfullscreen></iframe>
+        <div class="scan-line"></div>
+      </div>
       <div class="camera-feed">
         <div class="tech-text" style="color: #6bc0f7; text-shadow: 0 0 6px #6bc0f7; padding-left: 12px;">網頁更新日記</div>
         <a href="https://eugeneliu888.github.io/update-note-high-Quality/" target="_blank" rel="noopener noreferrer">
           <img src="網頁更新Ai.png" alt="網頁更新日記" />
         </a>
-        <div class="scan-line"></div>
-      </div>
-      <div class="camera-feed calendar-card">
-        <div class="tech-text" style="color: #6bc0f7; text-shadow: 0 0 6px #6bc0f7;">考試時間（頁內預覽）</div>
-        <iframe src="https://ashs115yitestschedule.notion.site/ebd//2d849e9eec318058a909fe4720e6d218?v=2d849e9eec3181c7b682000c651a19fd" title="考試行程" allowfullscreen></iframe>
         <div class="scan-line"></div>
       </div>
       <div class="camera-feed">
@@ -600,17 +611,6 @@
       gtag('event', 'click_update_log', {
         event_category: 'link',
         event_label: '網頁更新日記'
-      });
-    });
-  }
-
-  // 點擊「考試時間」
-  const examTimeLink = document.querySelector('a[href*="notion.site"]');
-  if (examTimeLink) {
-    examTimeLink.addEventListener('click', () => {
-      gtag('event', 'click_exam_time', {
-        event_category: 'link',
-        event_label: '考試時間'
       });
     });
   }
