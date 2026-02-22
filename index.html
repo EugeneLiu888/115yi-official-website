@@ -352,20 +352,38 @@
     outline: none;
   }
 
-  .calendar-card {
-    padding: 10px;
+  .notion-link-tile {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% - 28px);
+    padding: 12px;
+    box-sizing: border-box;
   }
 
-  .calendar-card iframe {
+  .notion-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    height: 100%;
-    min-height: 240px;
-    border: 0;
-    border-radius: 8px;
-    background: #02141d;
-    box-shadow: inset 0 0 8px rgba(91, 192, 222, 0.45);
+    min-height: 90px;
+    border: 1px solid rgba(91, 192, 222, 0.65);
+    border-radius: 10px;
+    color: #9fe8ff;
+    text-decoration: none;
+    background: linear-gradient(135deg, rgba(3, 30, 42, 0.9), rgba(2, 18, 26, 0.9));
+    box-shadow: 0 0 12px rgba(91, 192, 222, 0.35), inset 0 0 12px rgba(91, 192, 222, 0.18);
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.1em;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .notion-link:hover,
+  .notion-link:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 0 18px rgba(91, 192, 222, 0.6), inset 0 0 16px rgba(91, 192, 222, 0.26);
+    outline: none;
   }
 
   @media (max-width: 900px) {
@@ -382,7 +400,7 @@
     }
 
     .camera-feed {
-      min-height: 220px;
+      min-height: 200px;
     }
 
     .camera-feed > a,
@@ -392,8 +410,22 @@
       height: calc(100% - 28px);
     }
 
-    .calendar-card {
-      min-height: 360px;
+    .notion-link-tile {
+      min-height: 170px;
+      height: auto;
+      padding: 8px;
+    }
+
+    .notion-link {
+      min-height: 72px;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+    }
+
+    .tech-text {
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      line-height: 1.4;
     }
   }
 
@@ -442,15 +474,17 @@
         <div class="scan-line"></div>
       </div>
       <div class="camera-feed">
+        <div class="tech-text" style="color: #6bc0f7; text-shadow: 0 0 6px #6bc0f7;">行事曆</div>
+        <div class="notion-link-tile">
+          <a id="notionCalendarLink" class="notion-link" href="https://ashs115yitestschedule.notion.site/ebd//2d849e9eec318058a909fe4720e6d218?v=2d849e9eec3181c7b682000c651a19fd" target="_blank" rel="noopener noreferrer">點我前往 Notion 行事曆</a>
+        </div>
+        <div class="scan-line"></div>
+      </div>
+      <div class="camera-feed">
         <div class="tech-text" style="color: #6bc0f7; text-shadow: 0 0 6px #6bc0f7; padding-left: 12px;">網頁更新日記</div>
         <a href="https://eugeneliu888.github.io/update-note-high-Quality/" target="_blank" rel="noopener noreferrer">
           <img src="網頁更新Ai.png" alt="網頁更新日記" />
         </a>
-        <div class="scan-line"></div>
-      </div>
-      <div class="camera-feed calendar-card">
-        <div class="tech-text" style="color: #6bc0f7; text-shadow: 0 0 6px #6bc0f7;">考試時間（頁內預覽）</div>
-        <iframe src="https://ashs115yitestschedule.notion.site/ebd//2d849e9eec318058a909fe4720e6d218?v=2d849e9eec3181c7b682000c651a19fd" title="考試行程" allowfullscreen></iframe>
         <div class="scan-line"></div>
       </div>
       <div class="camera-feed">
@@ -605,7 +639,7 @@
   }
 
   // 點擊「考試時間」
-  const examTimeLink = document.querySelector('a[href*="notion.site"]');
+  const examTimeLink = document.getElementById('notionCalendarLink');
   if (examTimeLink) {
     examTimeLink.addEventListener('click', () => {
       gtag('event', 'click_exam_time', {
