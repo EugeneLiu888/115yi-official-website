@@ -54,6 +54,63 @@
     filter: drop-shadow(0 0 5px #5bc0de);
   }
 
+  .exam-tile {
+    cursor: pointer;
+  }
+
+  .schedule-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .schedule-modal.open {
+    display: flex;
+  }
+
+  .schedule-modal-content {
+    width: min(1000px, 95vw);
+    height: min(700px, 90vh);
+    border: 1px solid #5bc0de;
+    border-radius: 12px;
+    background: #001822;
+    box-shadow: 0 0 18px rgba(91, 192, 222, 0.5);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .schedule-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .schedule-close {
+    cursor: pointer;
+    border: 1px solid #5bc0de;
+    background: transparent;
+    color: #5bc0de;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .schedule-modal iframe {
+    width: 100%;
+    flex: 1;
+    border: 0;
+    border-radius: 8px;
+    background: #02141d;
+  }
+
   @keyframes pulse {
     0%, 100% {
       box-shadow: 0 0 15px #ff0000;
@@ -397,11 +454,9 @@
         </a>
         <div class="scan-line"></div>
       </div>
-      <div class="camera-feed">
-        <div class="tech-text" style="color: #6bc0f7; text-shadow: 0 0 6px #6bc0f7;">考試時間</div>
-        <a href="https://ashs115yitestschedule.notion.site/2d849e9eec318058a909fe4720e6d218?v=2d849e9eec3181c7b682000c651a19fd&pvs=74" target="_blank" rel="noopener noreferrer">
-          <img src="小豹紋Ai.png" alt="考試時間" />
-        </a>
+      <div class="camera-feed exam-tile" id="examTile" role="button" tabindex="0" aria-label="開啟考試行程視窗">
+        <div class="tech-text" style="color: #6bc0f7; text-shadow: 0 0 6px #6bc0f7;">考試時間（點擊開啟）</div>
+        <img src="小豹紋Ai.png" alt="考試時間" />
         <div class="scan-line"></div>
       </div>
       <div class="camera-feed">
@@ -412,6 +467,16 @@
         <div class="scan-line"></div>
       </div>
     </div> <!-- .grid 結束 -->
+
+    <div class="schedule-modal" id="scheduleModal" aria-hidden="true">
+      <div class="schedule-modal-content">
+        <div class="schedule-modal-header">
+          <div class="tech-text no-flicker">考試行程（Notion 內嵌預覽）</div>
+          <button type="button" class="schedule-close" id="scheduleClose">關閉</button>
+        </div>
+        <iframe src="https://ashs115yitestschedule.notion.site/ebd//2d849e9eec318058a909fe4720e6d218?v=2d849e9eec3181c7b682000c651a19fd" allowfullscreen></iframe>
+      </div>
+    </div>
 
   </div> <!-- .screen 結束 -->
 
@@ -555,14 +620,46 @@
     });
   }
 
-  // 點擊「考試時間」
-  const examTimeLink = document.querySelector('a[href*="notion.site"]');
-  if (examTimeLink) {
-    examTimeLink.addEventListener('click', () => {
-      gtag('event', 'click_exam_time', {
-        event_category: 'link',
-        event_label: '考試時間'
-      });
+  // 點擊「考試時間」開啟頁內視窗
+  const examTile = document.getElementById('examTile');
+  const scheduleModal = document.getElementById('scheduleModal');
+  const scheduleClose = document.getElementById('scheduleClose');
+
+  function openScheduleModal() {
+    if (!scheduleModal) return;
+    scheduleModal.classList.add('open');
+    scheduleModal.setAttribute('aria-hidden', 'false');
+    gtag('event', 'click_exam_time', {
+      event_category: 'modal',
+      event_label: '考試時間'
+    });
+  }
+
+  function closeScheduleModal() {
+    if (!scheduleModal) return;
+    scheduleModal.classList.remove('open');
+    scheduleModal.setAttribute('aria-hidden', 'true');
+  }
+
+  if (examTile) {
+    examTile.addEventListener('click', openScheduleModal);
+    examTile.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openScheduleModal();
+      }
+    });
+  }
+
+  if (scheduleClose) {
+    scheduleClose.addEventListener('click', closeScheduleModal);
+  }
+
+  if (scheduleModal) {
+    scheduleModal.addEventListener('click', (e) => {
+      if (e.target === scheduleModal) {
+        closeScheduleModal();
+      }
     });
   }
 
