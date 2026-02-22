@@ -22,7 +22,8 @@
     background: #000;
     color: #0f0;
     font-family: 'Orbitron', monospace, monospace;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .screen {
@@ -44,31 +45,18 @@
   .camera-feed {
     position: relative;
     overflow: hidden;
+    border: 1px solid rgba(91, 192, 222, 0.45);
+    border-radius: 10px;
+    background: rgba(0, 24, 34, 0.35);
   }
 
   .camera-feed video,
-  .camera-feed img {
+  .camera-feed img,
+  .camera-feed iframe {
     width: 100%;
     height: 100%;
     object-fit: cover;
     filter: drop-shadow(0 0 5px #5bc0de);
-  }
-
-  .embedded-panel {
-    margin-top: 16px;
-    border: 1px solid #5bc0de;
-    border-radius: 10px;
-    padding: 10px;
-    box-shadow: 0 0 12px rgba(91, 192, 222, 0.35);
-    background: rgba(0, 24, 34, 0.5);
-  }
-
-  .embedded-panel iframe {
-    width: 100%;
-    height: 320px;
-    border: 0;
-    border-radius: 8px;
-    background: #02141d;
   }
 
   @keyframes pulse {
@@ -363,6 +351,52 @@
     font-size: 14px;
     outline: none;
   }
+
+  .calendar-card {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .calendar-card iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 240px;
+    border: 0;
+    border-radius: 8px;
+    background: #02141d;
+    box-shadow: inset 0 0 8px rgba(91, 192, 222, 0.45);
+  }
+
+  @media (max-width: 900px) {
+    .screen {
+      height: auto;
+      min-height: 100vh;
+      padding: 14px;
+    }
+
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      height: auto;
+    }
+
+    .camera-feed {
+      min-height: 220px;
+    }
+
+    .camera-feed > a,
+    .camera-feed > img,
+    .camera-feed > iframe {
+      display: block;
+      height: calc(100% - 28px);
+    }
+
+    .calendar-card {
+      min-height: 360px;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -414,9 +448,9 @@
         </a>
         <div class="scan-line"></div>
       </div>
-      <div class="camera-feed">
+      <div class="camera-feed calendar-card">
         <div class="tech-text" style="color: #6bc0f7; text-shadow: 0 0 6px #6bc0f7;">考試時間（頁內預覽）</div>
-        <img src="小豹紋Ai.png" alt="考試時間" />
+        <iframe src="https://ashs115yitestschedule.notion.site/ebd//2d849e9eec318058a909fe4720e6d218?v=2d849e9eec3181c7b682000c651a19fd" title="考試行程" allowfullscreen></iframe>
         <div class="scan-line"></div>
       </div>
       <div class="camera-feed">
@@ -427,11 +461,6 @@
         <div class="scan-line"></div>
       </div>
     </div> <!-- .grid 結束 -->
-
-    <div class="embedded-panel">
-      <div class="tech-text no-flicker" style="margin-bottom: 10px;">考試行程（Notion 內嵌預覽）</div>
-      <iframe src="https://ashs115yitestschedule.notion.site/ebd//2d849e9eec318058a909fe4720e6d218?v=2d849e9eec3181c7b682000c651a19fd" allowfullscreen></iframe>
-    </div>
 
   </div> <!-- .screen 結束 -->
 
