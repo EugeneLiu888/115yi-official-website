@@ -56,6 +56,8 @@
 
   .exam-tile {
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
 
   .schedule-modal {
@@ -472,7 +474,10 @@
       <div class="schedule-modal-content">
         <div class="schedule-modal-header">
           <div class="tech-text no-flicker">考試行程（Notion 內嵌預覽）</div>
-          <button type="button" class="schedule-close" id="scheduleClose">關閉</button>
+          <div>
+            <a href="https://ashs115yitestschedule.notion.site/2d849e9eec318058a909fe4720e6d218?v=2d849e9eec3181c7b682000c651a19fd&pvs=74" target="_blank" rel="noopener noreferrer" class="schedule-close" style="text-decoration:none; margin-right:8px;">新分頁開啟</a>
+            <button type="button" class="schedule-close" id="scheduleClose">關閉</button>
+          </div>
         </div>
         <iframe src="https://ashs115yitestschedule.notion.site/ebd//2d849e9eec318058a909fe4720e6d218?v=2d849e9eec3181c7b682000c651a19fd" allowfullscreen></iframe>
       </div>
@@ -629,10 +634,12 @@
     if (!scheduleModal) return;
     scheduleModal.classList.add('open');
     scheduleModal.setAttribute('aria-hidden', 'false');
-    gtag('event', 'click_exam_time', {
-      event_category: 'modal',
-      event_label: '考試時間'
-    });
+    if (typeof gtag === 'function') {
+      gtag('event', 'click_exam_time', {
+        event_category: 'modal',
+        event_label: '考試時間'
+      });
+    }
   }
 
   function closeScheduleModal() {
@@ -643,6 +650,11 @@
 
   if (examTile) {
     examTile.addEventListener('click', openScheduleModal);
+    examTile.addEventListener('pointerup', openScheduleModal);
+    examTile.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      openScheduleModal();
+    }, { passive: false });
     examTile.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
